@@ -11,7 +11,15 @@ defmodule HandTest do
         Card.new(Rank.two, Suit.clubs)
       ]),
 
-      ace_high_unranked: Hand.new([
+      pair_of_aces: Hand.new([
+        Card.new(Rank.ace, Suit.spades),
+        Card.new(Rank.ace, Suit.diamonds),
+        Card.new(Rank.eight, Suit.clubs),
+        Card.new(Rank.seven, Suit.clubs),
+        Card.new(Rank.two, Suit.clubs)
+      ]),
+
+      unranked: Hand.new([
         Card.new(Rank.seven, Suit.clubs),
         Card.new(Rank.eight, Suit.clubs),
         Card.new(Rank.two, Suit.clubs),
@@ -21,16 +29,16 @@ defmodule HandTest do
     ]
   end
 
-  test "it ranks a high card hand", context do
+  test "it ranks a high card", context do
     assert Hand.rank(context.ace_high) == HandRank.high_card
   end
 
-  test "it turns a hand into a string", context do
-    assert Hand.to_string(context.ace_high) == "A♤ K♢ 8♧ 7♧ 2♧"
-  end  
+  test "it ranks a pair", context do
+    assert Hand.rank(context.pair_of_aces) == HandRank.pair
+  end
 
   test "it turns an unranked hand into a string", context do
-    assert Hand.to_string(context.ace_high_unranked) == "A♤ K♢ 8♧ 7♧ 2♧"
+    assert Hand.to_string(context.unranked) == "A♤ K♢ 8♧ 7♧ 2♧"
   end  
 
 end

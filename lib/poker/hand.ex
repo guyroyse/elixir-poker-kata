@@ -7,7 +7,22 @@ defmodule Hand do
   end
 
   def rank(%Hand{} = hand) do
-    HandRank.high_card
+    cond do
+      is_pair?(hand.cards) -> HandRank.pair
+      is_high_card?(hand.cards) -> HandRank.high_card
+    end
+  end
+
+  defp is_pair?(cards) do
+    cards
+    |> Enum.map(&(&1.rank))
+    |> Enum.group_by(&(&1))
+    |> Enum.map(fn { _, cards } -> Enum.count(cards) end)
+    |> Enum.member?(2)
+  end
+
+  defp is_high_card?(_) do
+    true
   end
 
   def to_string(%Hand{} = hand) do
