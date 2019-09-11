@@ -1,23 +1,30 @@
 defmodule Suit do
 
-  @suits [spades: 4, hearts: 3, clubs: 2, diamonds: 1]
+  defstruct suit: nil
 
-  def spades(), do: :spades
-  def hearts(), do: :hearts
-  def clubs(), do: :clubs
-  def diamonds(), do: :diamonds
+  @values [ spades: 4, hearts: 3, clubs: 2, diamonds: 1 ]
+  @strings [ spades: "♤", hearts: "♡", clubs: "♧", diamonds: "♢" ]
+
+  def spades(), do: to_struct(:spades)
+  def hearts(), do: to_struct(:hearts)
+  def clubs(), do: to_struct(:clubs)
+  def diamonds(), do: to_struct(:diamonds)
 
   def compare(a, b) do
     cond do
-      @suits[a] > @suits[b] -> :gt
-      @suits[a] == @suits[b] -> :eq
-      @suits[a] < @suits[b] -> :lt
+      to_value(a) > to_value(b) -> :gt
+      to_value(a) == to_value(b) -> :eq
+      to_value(a) < to_value(b) -> :lt
     end
   end
 
-  def to_string(:spades), do: "♠︎"
-  def to_string(:hearts), do: "♥"
-  def to_string(:clubs), do: "♣︎"
-  def to_string(:diamonds), do: "♦"
+  def to_string(%Suit{suit: suit}), do: @strings[suit]
+
+  defp to_struct(suit), do: %Suit{ suit: suit }
+
+  defp to_value(suit) do
+    %Suit{suit: suit} = suit
+    @values[suit]
+  end
 
 end

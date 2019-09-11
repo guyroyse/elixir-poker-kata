@@ -21,10 +21,10 @@ defmodule SuiteTest do
   end
 
   test "it turns suits into strings" do
-    assert Suit.to_string(Suit.spades) == "♠︎"
-    assert Suit.to_string(Suit.hearts) == "♥"
-    assert Suit.to_string(Suit.clubs) == "♣︎"
-    assert Suit.to_string(Suit.diamonds) == "♦"
+    assert Suit.to_string(Suit.spades) == "♤"
+    assert Suit.to_string(Suit.hearts) == "♡"
+    assert Suit.to_string(Suit.clubs) == "♧"
+    assert Suit.to_string(Suit.diamonds) == "♢"
   end
 
 end
