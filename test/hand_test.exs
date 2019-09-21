@@ -35,6 +35,30 @@ defmodule HandTest do
         Card.new(Rank.two, Suit.clubs)
       ]),
 
+      straight: Hand.new([
+        Card.new(Rank.king, Suit.spades),
+        Card.new(Rank.queen, Suit.diamonds),
+        Card.new(Rank.jack, Suit.clubs),
+        Card.new(Rank.ten, Suit.hearts),
+        Card.new(Rank.nine, Suit.clubs)
+      ]),
+
+      ace_high_straight: Hand.new([
+        Card.new(Rank.ace, Suit.spades),
+        Card.new(Rank.king, Suit.spades),
+        Card.new(Rank.queen, Suit.diamonds),
+        Card.new(Rank.jack, Suit.clubs),
+        Card.new(Rank.ten, Suit.hearts)
+      ]),
+
+      ace_low_straight: Hand.new([
+        Card.new(Rank.ace, Suit.spades),
+        Card.new(Rank.two, Suit.spades),
+        Card.new(Rank.three, Suit.diamonds),
+        Card.new(Rank.four, Suit.clubs),
+        Card.new(Rank.five, Suit.hearts)
+      ]),
+
       full_house: Hand.new([
         Card.new(Rank.king, Suit.spades),
         Card.new(Rank.king, Suit.diamonds),
@@ -83,6 +107,18 @@ defmodule HandTest do
 
   test "it ranks three of a kinda", context do
     assert Hand.rank(context.three_kings) == HandRank.three_of_a_kind
+  end
+
+  test "it ranks a straight", context do
+    assert Hand.rank(context.straight) == HandRank.straight
+  end
+
+  test "it ranks a straight, ace high", context do
+    assert Hand.rank(context.ace_high_straight) == HandRank.straight
+  end
+
+  test "it ranks a straight, ace low", context do
+    assert Hand.rank(context.ace_low_straight) == HandRank.straight
   end
 
   test "it ranks a full house", context do

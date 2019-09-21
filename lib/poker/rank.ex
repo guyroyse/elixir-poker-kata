@@ -40,7 +40,7 @@ defmodule Rank do
 
   defp to_struct(rank), do: %Rank{ rank: rank }
 
-  defp to_value(rank) do
+  def to_value(rank) do
     %Rank{rank: rank} = rank
     @values[rank]
   end

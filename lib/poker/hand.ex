@@ -11,6 +11,7 @@ defmodule Hand do
       is_five_of_a_kind?(hand.cards) -> HandRank.five_of_a_kind
       is_four_of_a_kind?(hand.cards) -> HandRank.four_of_a_kind
       is_full_house?(hand.cards) -> HandRank.full_house
+      is_straight?(hand.cards) -> HandRank.straight
       is_three_of_a_kind?(hand.cards) -> HandRank.three_of_a_kind
       is_two_pair?(hand.cards) -> HandRank.two_pair
       is_pair?(hand.cards) -> HandRank.pair
@@ -18,33 +19,36 @@ defmodule Hand do
     end
   end
 
-  defp is_five_of_a_kind?(cards) do
-    RankCounter.count_quints(cards) == 1
-  end
-
-  defp is_four_of_a_kind?(cards) do
-    RankCounter.count_quads(cards) == 1
-  end
-
-  defp is_full_house?(cards) do
-    RankCounter.count_triples(cards) == 1 && RankCounter.count_pairs(cards) == 1
-  end
-
-  defp is_three_of_a_kind?(cards) do
-    RankCounter.count_triples(cards) == 1
-  end
-
-  defp is_two_pair?(cards) do
-    RankCounter.count_pairs(cards) == 2
-  end
-
-  defp is_pair?(cards) do
+  defp is_five_of_a_kind?(cards), do: RankCounter.count_quints(cards) == 1
+  defp is_four_of_a_kind?(cards), do: RankCounter.count_quads(cards) == 1
+  defp is_full_house?(cards), do: RankCounter.count_triples(cards) == 1 &&
     RankCounter.count_pairs(cards) == 1
+
+  defp is_straight?(cards) do
+    card_values = 
+      cards
+      |> Enum.map(fn card -> Rank.to_value(card.rank) end)
+
+    full_size =
+      card_values
+      |> Enum.count()
+
+    uniq_size = 
+      card_values
+      |> Enum.uniq()
+      |> Enum.count()
+
+    { min, max } =
+      card_values
+      |> Enum.min_max()
+
+    (max - min + 1 == full_size) && (full_size == uniq_size)
   end
 
-  defp is_high_card?(_) do
-    true
-  end
+  defp is_three_of_a_kind?(cards), do: RankCounter.count_triples(cards) == 1
+  defp is_two_pair?(cards), do: RankCounter.count_pairs(cards) == 2
+  defp is_pair?(cards), do: RankCounter.count_pairs(cards) == 1
+  defp is_high_card?(_), do: true
 
   def to_string(%Hand{} = hand) do
     hand.cards
